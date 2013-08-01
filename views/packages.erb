@@ -1,0 +1,24 @@
+<%package = Package.all(:category => params[:category], :order => [:packagename.asc])%>
+<%package.each do |package|%>
+<table class="table table-bordered table-condensed">
+  <th><%="#{package.category}/#{package.packagename}"%></th>
+  <th>amd64</th>
+  <th>arm</th>
+  <th>ia64</th>
+  <th>sparc</th>
+  <th>x86</th>
+  <%p_versions = package.versions.split('|&|')%>
+  <%p_versions.each_with_index do |version, index|%>
+  <%p_hash = JSON.parse(p_versions[index])%>
+    <tr>
+      <td><%=p_hash['version']['number']%></td>
+      <td width="10%" <%=format_keywords('amd64', p_hash['version']['keywords'])%></td>
+      <td width="10%" <%=format_keywords('arm', p_hash['version']['keywords'])%></td>
+      <td width="10%" <%=format_keywords('ia64', p_hash['version']['keywords'])%></td>
+      <td width="10%" <%=format_keywords('sparc', p_hash['version']['keywords'])%></td>
+      <td width="10%" <%=format_keywords('x86', p_hash['version']['keywords'])%></td>
+    </tr>  
+  <%end%>
+  </tr>
+</table>
+<%end%>
