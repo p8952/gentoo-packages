@@ -9,7 +9,7 @@ end
 
 task :sync_ebuilds => [:clean_ebuilds] do
   FileUtils.mkdir("#{@path}/lib/ebuilds") unless File.directory?("#{@path}/lib/ebuilds")
-  %x[rsync -v --archive --compress --include='*/' --include='*.ebuild' --exclude='*' rsync://mirror.bytemark.co.uk/gentoo-portage/app-editors/ lib/ebuilds/app-editors/]
+  %x[rsync -v --archive --compress --include='*/' --include='*.ebuild' --exclude='*' rsync://mirror.bytemark.co.uk/gentoo-portage/ lib/ebuilds/]
 end
 
 task :clean_db do

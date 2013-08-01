@@ -12,4 +12,5 @@ end
 
 group :development do
   gem 'dm-sqlite-adapter'
+  gem 'dm-postgres-adapter'
 end

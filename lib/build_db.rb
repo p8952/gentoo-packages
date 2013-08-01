@@ -16,7 +16,7 @@ end
 DataMapper.finalize
 DataMapper.auto_migrate!
 
-Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/app-editors/**/*-*.ebuild") do |ebuild|
+Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do |ebuild|
   f = File.open(ebuild)
   f_ebuild = f.read()
   f.close()
