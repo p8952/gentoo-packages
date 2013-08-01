@@ -9,7 +9,7 @@ class GentooPackages < Sinatra::Application
   require_relative 'models/init'
   require_relative 'routes/init'
   require_relative 'lib/init'
- 
+
   DataMapper.finalize
   DataMapper.auto_upgrade!
 end

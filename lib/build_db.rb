@@ -29,8 +29,8 @@ Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/app-editors/**/*-*
   e_homepage = f_ebuild.match(/(?<=HOMEPAGE=")(.*)(?=")/).to_s
   e_license = f_ebuild.match(/(?<=LICENSE=")(.*)(?=")/).to_s
 
-  unless e_keywords.nil? or e_keywords.empty? or 
-         e_description.nil? or e_description.empty? or 
+  unless e_keywords.nil? or e_keywords.empty? or
+         e_description.nil? or e_description.empty? or
          e_homepage.nil? or e_homepage.empty? or
          e_license.nil? or e_license.empty?
 
@@ -43,7 +43,7 @@ Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/app-editors/**/*-*
         json.license(e_license)
       end
     end
-    
+
     package = Package.first(:category => e_category, :packagename => e_packagename)
     if package.nil?
       puts "Creating : #{e_category}/#{e_packagename}-#{e_version}"
