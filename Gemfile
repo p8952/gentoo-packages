@@ -1,16 +1,17 @@
 source 'https://rubygems.org'
-gem 'sinatra'
-gem 'rake'
-gem 'jbuilder'
+ruby "2.0.0"
+
 gem 'data_mapper'
+gem 'jbuilder'
+gem 'rake'
+gem 'sinatra'
+gem 'thin'
 
 group :production do
-  ruby "2.0.0"
-  gem 'thin'
   gem 'dm-postgres-adapter'
 end
 
 group :development do
-  gem 'dm-sqlite-adapter'
   gem 'dm-postgres-adapter'
+  gem 'dm-sqlite-adapter'
 end
