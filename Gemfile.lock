@@ -8,7 +8,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
-    atomic (1.1.10)
+    atomic (1.1.12)
     bcrypt-ruby (3.1.1)
     daemons (1.1.9)
     data_mapper (1.2.0)
@@ -73,7 +73,7 @@ GEM
     json (1.8.0)
     json_pure (1.8.0)
     minitest (4.7.5)
-    multi_json (1.7.7)
+    multi_json (1.7.8)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
