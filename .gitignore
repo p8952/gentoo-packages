@@ -2,3 +2,4 @@
 .bundle/
 .ruby-gemset
 .ruby-version
+lib/ebuilds/
