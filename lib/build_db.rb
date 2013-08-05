@@ -35,8 +35,7 @@ Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do
          e_license.nil? or e_license.empty?
 
     e_json = Jbuilder.encode do |json|
-      json.version do
-        json.number(e_version)
+      json.set!(e_version) do
         json.keywords(e_keywords)
         json.description(e_description)
         json.homepage(e_homepage)
@@ -55,7 +54,7 @@ Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do
       package.save
     else
       puts "Updating : #{e_category}/#{e_packagename}-#{e_version}"
-      package.update(:versions => (package.versions + '|&|' + e_json).split('|&|').sort.reverse.join('|&|'))
+      package.update(:versions => (package.versions.sub(/}$/,',') + e_json.sub(/^{/,''))) #.split('},').sort.reverse.join('},'))
     end
   end
 end
