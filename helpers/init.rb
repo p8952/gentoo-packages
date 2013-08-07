@@ -12,7 +12,7 @@ end
 def redis_to_hash(keys)
   hash = Hash.new
   keys.each do |key|
-    hash[key] = @@redis.get(key)
+    hash[key] = $redis.get(key)
   end
   return hash
 end

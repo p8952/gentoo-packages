@@ -1,4 +1,4 @@
-<%category_packages = @@redis.keys("#{params[:category]}/*")%>
+<%category_packages = $redis.keys("#{params[:category]}/*")%>
 <%category_packages.each do |package|%>
   <table class="table table-bordered table-condensed">
   <th><%=package%></th>
@@ -7,7 +7,7 @@
   <th>ia64</th>
   <th>sparc</th>
   <th>x86</th>
-  <%package_hash = JSON.parse(@@redis.get(package))%>
+  <%package_hash = JSON.parse($redis.get(package))%>
   <%package_hash.each do |version, index|%>
     <tr>
       <td><%=version%></td>

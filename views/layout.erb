@@ -33,7 +33,7 @@
       <div class="col-lg-2 col-offset-1">
        <table class="table table-bordered table-condensed">
         <%categories = []%>
-        <%@@redis.keys.each { |key| categories << key.split('/')[0] }%>
+        <%$redis.keys.each { |key| categories << key.split('/')[0] }%>
         <%categories.uniq.sort.each do |category|%>
           <tr><td><a href="/packages/<%=category%>"><%=category%></a></td></tr>
         <%end%>
