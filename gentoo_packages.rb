@@ -1,15 +1,10 @@
-require 'sinatra'
-require 'data_mapper'
 require 'json'
+require 'redis'
+require 'sinatra'
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{File.expand_path(File.dirname(__FILE__))}/lib/db.sqlite")
-DataMapper::Property::String.length(255)
+@@redis = Redis.new(:host => "127.0.0.1", :port => 6379)
 
 class GentooPackages < Sinatra::Application
-  require_relative 'models/init'
   require_relative 'routes/init'
-  require_relative 'lib/init'
-
-  DataMapper.finalize
-  DataMapper.auto_upgrade!
+  require_relative 'helpers/init'
 end

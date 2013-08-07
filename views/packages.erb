@@ -1,23 +1,22 @@
-<%package = Package.all(:category => params[:category], :order => [:packagename.asc])%>
-<%package.each do |package|%>
+<%category_packages = @@redis.keys("#{params[:category]}/*")%>
+<%category_packages.each do |package|%>
   <table class="table table-bordered table-condensed">
-    <th><%="#{package.category}/#{package.packagename}"%></th>
-    <th>amd64</th>
-    <th>arm</th>
-    <th>ia64</th>
-    <th>sparc</th>
-    <th>x86</th>
-    <%p_hash = JSON.parse(package.versions)%>
-    <%p_hash.keys.each do |version|%>
-      <tr>
-        <td><%=version%></td>
-        <td width="10%" <%=format_keywords('amd64', p_hash[version]['keywords'])%></td>
-        <td width="10%" <%=format_keywords('arm', p_hash[version]['keywords'])%></td>
-        <td width="10%" <%=format_keywords('ia64', p_hash[version]['keywords'])%></td>
-        <td width="10%" <%=format_keywords('sparc', p_hash[version]['keywords'])%></td>
-        <td width="10%" <%=format_keywords('x86', p_hash[version]['keywords'])%></td>
-      </tr>
-    <%end%>
+  <th><%=package%></th>
+  <th>amd64</th>
+  <th>arm</th>
+  <th>ia64</th>
+  <th>sparc</th>
+  <th>x86</th>
+  <%package_hash = JSON.parse(@@redis.get(package))%>
+  <%package_hash.each do |version, index|%>
+    <tr>
+      <td><%=version%></td>
+      <td width="10%" <%=format_keywords('amd64', package_hash[version]['keywords'])%></td>
+      <td width="10%" <%=format_keywords('arm', package_hash[version]['keywords'])%></td>
+      <td width="10%" <%=format_keywords('ia64', package_hash[version]['keywords'])%></td>
+      <td width="10%" <%=format_keywords('sparc', package_hash[version]['keywords'])%></td>
+      <td width="10%" <%=format_keywords('x86', package_hash[version]['keywords'])%></td>
     </tr>
+  <%end%>
   </table>
 <%end%>
