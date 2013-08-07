@@ -1,6 +1,7 @@
 require 'json'
 require 'redis'
 require 'sinatra'
+require 'chartkick'
 
 if ENV["REDISCLOUD_URL"]
   uri = URI.parse(ENV["REDISCLOUD_URL"])
