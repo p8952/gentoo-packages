@@ -11,7 +11,7 @@ def setup_redis()
   else  
     @redis = Redis.new(:host => "127.0.0.1", :port => 6379)
   end
-  @redis.keys.each { |key| @redis.del(key) }
+  @redis.keys.each { |key| puts "Deleting: #{key}"; @redis.del(key) }
 end
 
 def parse_ebuild(ebuild)
@@ -48,10 +48,11 @@ setup_redis()
 Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do |ebuild|
   key, json = parse_ebuild(ebuild)
   unless key.nil? or json.nil?
-    puts key
     if @redis.exists(key)
+      puts "Updating: #{key}"
       @redis.set(key, (@redis.get(key).sub(/}$/,',') + json.sub(/^{/,'')))
     else
+      puts "Setting: #{key}"
       @redis.set(key, json)
     end
   end
