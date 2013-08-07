@@ -2,8 +2,14 @@
 
 require 'jbuilder'
 require 'redis'
+require 'uri'
 
-@redis = Redis.new(:host => "127.0.0.1", :port => 6379)
+if ENV["REDISCLOUD_URL"]
+  uri = URI.parse(ENV["REDISCLOUD_URL"])
+  @redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+else
+  @redis = Redis.new(:host => "127.0.0.1", :port => 6379)
+end
 @redis.keys.each { |key| @redis.del(key) }
 
 Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do |ebuild|
