@@ -44,16 +44,45 @@ def parse_ebuild(ebuild)
   return key, e_json
 end
 
-setup_redis()
+def build_db(key, json)
+  if @redis.exists(key)
+    puts "Updating: #{key}"
+    @redis.set(key, (@redis.get(key).sub(/}$/,',') + json.sub(/^{/,'')))
+  else
+    puts "Setting: #{key}"
+    @redis.set(key, json)
+  end
+end
+
+def build_metadata()
+  # Total indexed packages
+  @redis.set('meta_indexed', @redis.keys.count)
+
+  # Packages per category
+  categories = []
+  @redis.keys.each { |key| categories << key.split('/')[0] }
+  categories.uniq.sort.each do |category|
+    @redis.set("meta_total_#{category}", @redis.keys("#{category}/*").count)
+  end
+
+  # License popularity
+  @redis.keys.each do |package|
+    @redis.incr('meta_license_apache-2.0') if @redis.get(package).include?('Apache-2.0')
+    @redis.incr('meta_license_bsd') if @redis.get(package).include?('BSD')
+    @redis.incr('meta_license_gpl-2') if @redis.get(package).include?('GPL-2')
+    @redis.incr('meta_license_gpl-3') if @redis.get(package).include?('GPL-3')
+    @redis.incr('meta_license_mit') if @redis.get(package).include?('MIT')
+  end
+  non_other = 0
+  @redis.keys('meta_license_*').each { |license| non_other = non_other + @redis.get(license).to_i }
+  @redis.set('meta_license_other', (@redis.get('meta_indexed').to_i - non_other))
+end
+
+setup_redis
 Dir.glob("#{File.expand_path(File.dirname(__FILE__))}/ebuilds/**/*-*.ebuild") do |ebuild|
   key, json = parse_ebuild(ebuild)
   unless key.nil? or json.nil?
-    if @redis.exists(key)
-      puts "Updating: #{key}"
-      @redis.set(key, (@redis.get(key).sub(/}$/,',') + json.sub(/^{/,'')))
-    else
-      puts "Setting: #{key}"
-      @redis.set(key, json)
-    end
+    build_db(key, json)
   end
 end
+build_metadata
