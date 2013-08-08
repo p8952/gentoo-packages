@@ -1,0 +1,7 @@
+<h2>Package Statistics</h2>
+<div class="well">
+  <h4>Packages per category:</h4>
+  <%=pie_chart(redis_to_hash($redis.keys('meta_total_*'), 'total'), :library => {:pieSliceText => 'none'})%>
+  <h4>License popularity:</h4>
+  <%=pie_chart(redis_to_hash($redis.keys('meta_license_*'),'license'), :library => {:pieSliceText => 'none'})%>
+</div>
