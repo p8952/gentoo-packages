@@ -9,10 +9,10 @@ def format_keywords(arch, keywords)
   end
 end
 
-def redis_to_hash(keys)
+def redis_to_hash(keys, str)
   hash = Hash.new
   keys.each do |key|
-    hash[key] = $redis.get(key)
+    hash[key.gsub('_',' ').gsub('meta', '').gsub(str, '')] = $redis.get(key)
   end
   return hash
 end
