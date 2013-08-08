@@ -8,7 +8,7 @@
   <th>sparc</th>
   <th>x86</th>
   <%package_hash = JSON.parse($redis.get(package))%>
-  <%package_hash.each do |version, index|%>
+  <%package_hash.sort.each do |version, index|%>
     <tr>
       <td><%=version%></td>
       <td width="10%" <%=format_keywords('amd64', package_hash[version]['keywords'])%></td>

@@ -14,5 +14,5 @@ def redis_to_hash(keys, str)
   keys.each do |key|
     hash[key.gsub('_',' ').gsub('meta', '').gsub(str, '')] = $redis.get(key)
   end
-  return Hash[hash.sort]
+  return hash.sort
 end
