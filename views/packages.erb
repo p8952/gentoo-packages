@@ -1,5 +1,5 @@
 <%category_packages = $redis.keys("#{params[:category]}/*")%>
-<%category_packages.each do |package|%>
+<%category_packages.sort.each do |package|%>
   <table class="table table-bordered table-condensed">
   <th><%=package%></th>
   <th>amd64</th>
