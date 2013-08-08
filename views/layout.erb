@@ -30,18 +30,21 @@
       </form>
     </div>
     <div class="row">
-      <div class="col-lg-2 col-offset-1">
+      <div class="col-lg-3 col-offset-1">
        <table class="table table-bordered table-condensed">
         <%categories = []%>
         <%$redis.keys.each { |key| categories << key.split('/')[0] }%>
-        <%categories.uniq.sort.each do |category|%>
-          <%unless category.include?('meta_')%>
-            <tr><td><a href="/packages/<%=category%>"><%=category%></a></td></tr>
+        <%categories.uniq.sort.each_slice(2) do |category_a, category_b|%>
+          <%unless category_a.include?('meta_') or category_b.include?('meta_')%>
+            <tr>
+              <td><a href="/packages/<%=category_a%>"><small><%=category_a%></small></a></td>
+              <td><a href="/packages/<%=category_b%>"><small><%=category_b%></small></a></td>
+            </tr>
           <%end%>
         <%end%>
         </table>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <%=yield%>
       </div>
     </div>
