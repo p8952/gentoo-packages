@@ -6,6 +6,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+    <!-- <script src="//www.google.com/jsapi"></script> -->
     <script src="//code.highcharts.com/highcharts.js"></script>
     <script src="//rawgithub.com/ankane/chartkick/master/app/assets/javascripts/chartkick.js"></script>
   </head>
@@ -35,7 +36,9 @@
         <%categories = []%>
         <%$redis.keys.each { |key| categories << key.split('/')[0] }%>
         <%categories.uniq.sort.each do |category|%>
-          <tr><td><a href="/packages/<%=category%>"><%=category%></a></td></tr>
+          <%unless category.include?('meta_')%>
+            <tr><td><a href="/packages/<%=category%>"><%=category%></a></td></tr>
+          <%end%>
         <%end%>
         </table>
       </div>
