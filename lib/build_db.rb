@@ -33,25 +33,21 @@ def parse_ebuild(ebuild)
   end
   
   e_json = Jbuilder.encode do |json|
-    json.set!(e_version) do
-      json.keywords(e_keywords)
-      json.description(e_description)
-      json.homepage(e_homepage)
-      json.license(e_license)
-    end
+    json.category(e_category)
+    json.packagename(e_packagename)
+    json.version(e_version)
+    json.keywords(e_keywords)
+    json.description(e_description)
+    json.homepage(e_homepage)
+    json.license(e_license)
   end
-  key = "#{e_category}/#{e_packagename}"
+  key = "#{e_category}/#{e_packagename}-#{e_version}"
   return key, e_json
 end
 
 def build_db(key, json)
-  if @redis.exists(key)
-    puts "Updating: #{key}"
-    @redis.set(key, (@redis.get(key).sub(/}$/,',') + json.sub(/^{/,'')))
-  else
-    puts "Setting: #{key}"
-    @redis.set(key, json)
-  end
+  puts "Setting: #{key}"
+  @redis.set(key, json)
 end
 
 def build_metadata()

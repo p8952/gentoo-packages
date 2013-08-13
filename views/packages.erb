@@ -1,6 +1,6 @@
-<%category_packages = $redis.keys("#{params[:category]}/*")%>
-<%category_packages.sort.each do |package|%>
-  <%package_hash = JSON.parse($redis.get(package))%>
+<%packages = []%>
+<%$redis.keys("#{params[:category]}/*").each { |key| packages << key.split(/-\d/)[0] }%>
+<%packages.uniq.sort.each do |package|%>
   <div class="panel">
     <div class="panel-heading">
       <h3 class="panel-title"><%=package%></h3>
@@ -12,14 +12,15 @@
       <th>ia64</th>
       <th>sparc</th>
       <th>x86</th>
-      <%package_hash.sort.each do |version, index|%>
+      <%$redis.keys("#{package}-*").sort.each do |version|%>
+        <%version_hash = JSON.parse($redis.get(version))%>
         <tr>
-          <td><%=version%></td>
-          <td width="10%" <%=format_keywords('amd64', package_hash[version]['keywords'])%></td>
-          <td width="10%" <%=format_keywords('arm', package_hash[version]['keywords'])%></td>
-          <td width="10%" <%=format_keywords('ia64', package_hash[version]['keywords'])%></td>
-          <td width="10%" <%=format_keywords('sparc', package_hash[version]['keywords'])%></td>
-          <td width="10%" <%=format_keywords('x86', package_hash[version]['keywords'])%></td>
+          <td><%=version_hash['version']%></td>
+          <td width="10%" <%=format_keywords('amd64', version_hash['keywords'])%></td>
+          <td width="10%" <%=format_keywords('arm', version_hash['keywords'])%></td>
+          <td width="10%" <%=format_keywords('ia64', version_hash['keywords'])%></td>
+          <td width="10%" <%=format_keywords('sparc', version_hash['keywords'])%></td>
+          <td width="10%" <%=format_keywords('x86', version_hash['keywords'])%></td>
         </tr>
       <%end%>
     </table>
