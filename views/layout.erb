@@ -38,8 +38,8 @@
         <%categories.uniq.sort.each_slice(2) do |category_a, category_b|%>
           <%unless category_a.include?('meta_') or category_b.include?('meta_')%>
             <tr>
-              <td><a href="/packages/<%=category_a%>"><small><%=category_a%></small></a></td>
-              <td><a href="/packages/<%=category_b%>"><small><%=category_b%></small></a></td>
+              <td><a href="/<%=category_a%>"><small><%=category_a%></small></a></td>
+              <td><a href="/<%=category_b%>"><small><%=category_b%></small></a></td>
             </tr>
           <%end%>
         <%end%>
