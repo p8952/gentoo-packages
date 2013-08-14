@@ -5,6 +5,8 @@
     <div class="panel-heading">
       <h3 class="panel-title"><%=package%></h3>
     </div>
+    <%metadata_hash = JSON.parse($redis.get($redis.keys("#{package}-*").sort.last))%>
+    <%=metadata_hash['description']%>
     <table class="table table-bordered table-condensed">
       <th></th>
       <th>amd64</th>
