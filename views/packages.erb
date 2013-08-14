@@ -26,5 +26,12 @@
         </tr>
       <%end%>
     </table>
+    <table class="table table-bordered table-condensed">
+      <tr>
+        <td><a href="<%=metadata_hash['homepage']%>">Homepage</a></td>
+        <td><a href="http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/<%="#{metadata_hash['category']}/#{metadata_hash['packagename']}"%>/ChangeLog">Changelog</a></td>
+        <td><%=metadata_hash['license']%></td>
+      </tr>
+    </table>
   </div>
 <%end%>
